@@ -6,7 +6,7 @@ Console.WriteLine("Provide the source folder path..");
 var sourceFolderPath = Console.ReadLine();
 while(!Directory.Exists(sourceFolderPath))
 {
-    Console.WriteLine("If it exists in the path mentioned and returning the does not exist");
+    Console.WriteLine("Path mentioned does not exist");
     Console.WriteLine("If it exists in the path mentioned and returning the same path, please check if you have the access to the source folder");
     Console.WriteLine("Please enter relevant source folder path");
     sourceFolderPath = Console.ReadLine();
@@ -28,6 +28,7 @@ Console.WriteLine("Provide log file path..");
 var logFilePath = Console.ReadLine();
 while(!File.Exists(logFilePath))
 {
+    Console.WriteLine("Path mentioned does not exist");
     Console.WriteLine("If it exists in the path mentioned and returning the does not exist, please check if you have the access to the log file");
     Console.WriteLine("Please enter relevant log file path below");
     logFilePath = Console.ReadLine();
