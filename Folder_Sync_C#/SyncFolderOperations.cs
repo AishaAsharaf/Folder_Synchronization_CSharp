@@ -3,7 +3,6 @@ public class SyncFolderOperations
     
     public void AllSyncOperations(string sourcePath,string[] sourcefiles, string[] sourcefolders, string replicaPath, Logger logger)
     {
-     CheckIfSourceFolderIsEmpty(sourcefiles, sourcefolders, replicaPath, logger);
      DeleteFilesNotInSource(sourcePath, replicaPath, logger);
      DeleteFoldersNotInSource(sourcePath, replicaPath, logger);
      CreateFoldersNotInReplica(sourcePath, replicaPath, logger);
@@ -11,24 +10,6 @@ public class SyncFolderOperations
      FileContentsAreSame(sourcePath, replicaPath, logger);  
     }
 
-     private void CheckIfSourceFolderIsEmpty(string[] sourcefiles, string[] sourcefolders, string replicaPath, Logger logger)
-    {   try{
-        //emptying replica folder if source folder is empty.
-             if (sourcefiles.Length == 0 && sourcefolders.Length == 0)
-             {
-                logger.Info("Source folder is empty, so the replica folder contents will be emptied");
-                DeleteAllFilesAndFolders(replicaPath,logger);
-             }
-            }
-        catch (UnauthorizedAccessException ex)
-            {
-                logger.Error($"Access denied to the source folder or files: {ex.Message}");
-            }
-        catch (Exception ex)
-            {
-                logger.Error($"Unexpected error while checking if source folder is empty: {ex.Message}");
-            }
-    }
      private void DeleteAllFilesAndFolders(string path, Logger logger)
      {
          // Delete all files in the directory
