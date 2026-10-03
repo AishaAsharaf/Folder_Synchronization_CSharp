@@ -6,20 +6,30 @@ Console.WriteLine("Provide the source folder path..");
 var sourceFolderPath = Console.ReadLine();
 while(!Directory.Exists(sourceFolderPath))
 {
-    Console.WriteLine("Source path mentioned does not exist, please enter relevant source path");
+    Console.WriteLine("If it exists in the path mentioned and returning the does not exist");
+    Console.WriteLine("If it exists in the path mentioned and returning the same path, please check if you have the access to the source folder");
+    Console.WriteLine("Please enter relevant source folder path");
     sourceFolderPath = Console.ReadLine();
 }
 
 //Requesting the user to provide replica folder path
 Console.WriteLine("Provide replica folder path..");
 var replicaFolderPath = Console.ReadLine();
+while(!Directory.Exists(replicaFolderPath))
+{
+    Console.WriteLine("Replica path mentioned does not exist");
+    Console.WriteLine("If it exists in the path mentioned and returning the same path, please check if you have the access to the replica folder");
+    Console.WriteLine("Please enter relevant replica folder path");
+    replicaFolderPath = Console.ReadLine();
+}
 
 //Requesting the user to provide log file path
 Console.WriteLine("Provide log file path..");
 var logFilePath = Console.ReadLine();
 while(!File.Exists(logFilePath))
 {
-    Console.WriteLine("Log file path mentioned does not exist, please enter relevant log file path");
+    Console.WriteLine("If it exists in the path mentioned and returning the does not exist, please check if you have the access to the log file");
+    Console.WriteLine("Please enter relevant log file path below");
     logFilePath = Console.ReadLine();
 }
 

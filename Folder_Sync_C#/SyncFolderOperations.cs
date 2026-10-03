@@ -47,16 +47,19 @@ public class SyncFolderOperations
             {
                 Console.WriteLine($"Access denied to the file {file}: {ex.Message}");
                 logger.Error($"Access denied to the file {file}: {ex.Message}");
+                continue;
             }
             catch (IOException ex)
             {
                 Console.WriteLine($"I/O error while deleting file {file}: {ex.Message}");
                 logger.Error($"I/O error while deleting file {file}: {ex.Message}");
+                continue;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Unexpected error while deleting file {file}: {ex.Message}");
                 logger.Error($"Unexpected error while deleting file {file}: {ex.Message}");
+                continue;
             }
          }
          // Recursively delete all subdirectories
@@ -67,21 +70,25 @@ public class SyncFolderOperations
                 Directory.Delete(directory);
                 Console.WriteLine($"Deleted this folder {directory}.....{DateTime.Now.ToString()}");
                 logger.Info($"Deleted this folder {directory}.....{DateTime.Now.ToString()}");
+                continue;
              }
              catch (UnauthorizedAccessException ex)
              {
                  Console.WriteLine($"Access denied to the folder {directory}: {ex.Message}");
                  logger.Error($"Access denied to the folder {directory}: {ex.Message}");
+                 continue;
              }
              catch (IOException ex)
              {
                  Console.WriteLine($"I/O error while deleting folder {directory}: {ex.Message}");
                  logger.Error($"I/O error while deleting folder {directory}: {ex.Message}");
+                 continue;
              }
              catch (Exception ex)
              {
                  Console.WriteLine($"Unexpected error while deleting folder {directory}: {ex.Message}");
                  logger.Error($"Unexpected error while deleting folder {directory}: {ex.Message}");
+                 continue;
              }
          }
      }
@@ -123,16 +130,19 @@ public class SyncFolderOperations
                 {
                     Console.WriteLine($"Access denied to the file {replicaFile}: {ex.Message}");
                     logger.Error($"Access denied to the file {replicaFile}: {ex.Message}");
+                    continue;
                 }
                 catch (IOException ex)
                 {
                     Console.WriteLine($"I/O error while deleting file {replicaFile}: {ex.Message}");
                     logger.Error($"I/O error while deleting file {replicaFile}: {ex.Message}");
+                    continue;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Unexpected error while deleting file {replicaFile}: {ex.Message}");
                     logger.Error($"Unexpected error while deleting file {replicaFile}: {ex.Message}");
+                    continue;
                 }
              }  
          }
@@ -173,16 +183,19 @@ public class SyncFolderOperations
                     {
                         Console.WriteLine($"Access denied to the folder {replicaFolder}: {ex.Message}");
                         logger.Error($"Access denied to the folder {replicaFolder}: {ex.Message}");
+                        continue;
                     }
                     catch (IOException ex)
                     {
                         Console.WriteLine($"I/O error while deleting folder {replicaFolder}: {ex.Message}");
                         logger.Error($"I/O error while deleting folder {replicaFolder}: {ex.Message}");
+                        continue;
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Unexpected error while deleting folder {replicaFolder}: {ex.Message}");
                         logger.Error($"Unexpected error while deleting folder {replicaFolder}: {ex.Message}");
+                        continue;
                     }
                  }
              }
@@ -228,6 +241,7 @@ public class SyncFolderOperations
                 {
                     Console.WriteLine($"Unexpected error while creating folder {folderPath}: {ex.Message}");
                     logger.Error($"Unexpected error while creating folder {folderPath}: {ex.Message}");
+                    continue;
                 }
              }
 
@@ -269,21 +283,25 @@ public class SyncFolderOperations
             {
                 Console.WriteLine($"File not found while comparing files: {ex.Message}");
                 logger.Error($"File not found while comparing files: {ex.Message}");
+                continue;
             }
             catch (IOException ex)
             {
                     Console.WriteLine($"I/O error while comparing files: {ex.Message}");
                     logger.Error($"I/O error while comparing files: {ex.Message}");
+                    continue;
             }
             catch (UnauthorizedAccessException ex)
             {
                     Console.WriteLine($"Access denied while comparing files: {ex.Message}");
                     logger.Error($"Access denied while comparing files: {ex.Message}");
+                    continue;
             }
             catch (Exception ex)
             {
                     Console.WriteLine($"Unexpected error while comparing files: {ex.Message}");
                     logger.Error($"Unexpected error while comparing files: {ex.Message}");
+                    continue;
             }
              
          }
