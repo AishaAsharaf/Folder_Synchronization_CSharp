@@ -16,19 +16,16 @@ public class SyncFolderOperations
         //emptying replica folder if source folder is empty.
              if (sourcefiles.Length == 0 && sourcefolders.Length == 0)
              {
-                Console.WriteLine("Source folder is empty, so the replica folder contents will be emptied");
                 logger.Info("Source folder is empty, so the replica folder contents will be emptied");
                 DeleteAllFilesAndFolders(replicaPath,logger);
              }
             }
         catch (UnauthorizedAccessException ex)
             {
-                Console.WriteLine($"Access denied to the source folder or files: {ex.Message}");
                 logger.Error($"Access denied to the source folder or files: {ex.Message}");
             }
         catch (Exception ex)
             {
-                Console.WriteLine($"Unexpected error while checking if source folder is empty: {ex.Message}");
                 logger.Error($"Unexpected error while checking if source folder is empty: {ex.Message}");
             }
     }
@@ -40,24 +37,20 @@ public class SyncFolderOperations
             try
             {
              File.Delete(file);
-             Console.WriteLine($"Deleted this file {file}.....{DateTime.Now.ToString()}");
              logger.Info($"Deleted this file {file}.....{DateTime.Now.ToString()}");
             }
             catch (UnauthorizedAccessException ex)
             {
-                Console.WriteLine($"Access denied to the file {file}: {ex.Message}");
                 logger.Error($"Access denied to the file {file}: {ex.Message}");
                 continue;
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"I/O error while deleting file {file}: {ex.Message}");
                 logger.Error($"I/O error while deleting file {file}: {ex.Message}");
                 continue;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Unexpected error while deleting file {file}: {ex.Message}");
                 logger.Error($"Unexpected error while deleting file {file}: {ex.Message}");
                 continue;
             }
@@ -68,25 +61,21 @@ public class SyncFolderOperations
              DeleteAllFilesAndFolders(directory, logger);
              try{
                 Directory.Delete(directory);
-                Console.WriteLine($"Deleted this folder {directory}.....{DateTime.Now.ToString()}");
                 logger.Info($"Deleted this folder {directory}.....{DateTime.Now.ToString()}");
                 continue;
              }
              catch (UnauthorizedAccessException ex)
              {
-                 Console.WriteLine($"Access denied to the folder {directory}: {ex.Message}");
                  logger.Error($"Access denied to the folder {directory}: {ex.Message}");
                  continue;
              }
              catch (IOException ex)
              {
-                 Console.WriteLine($"I/O error while deleting folder {directory}: {ex.Message}");
                  logger.Error($"I/O error while deleting folder {directory}: {ex.Message}");
                  continue;
              }
              catch (Exception ex)
              {
-                 Console.WriteLine($"Unexpected error while deleting folder {directory}: {ex.Message}");
                  logger.Error($"Unexpected error while deleting folder {directory}: {ex.Message}");
                  continue;
              }
@@ -123,24 +112,20 @@ public class SyncFolderOperations
                 try
                 {
                  File.Delete(replicaFile);
-                 Console.WriteLine($"Deleted this file {replicaFile}.....{DateTime.Now.ToString()}");
                  logger.Info($"Deleted this file {replicaFile}.....{DateTime.Now.ToString()}");
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    Console.WriteLine($"Access denied to the file {replicaFile}: {ex.Message}");
                     logger.Error($"Access denied to the file {replicaFile}: {ex.Message}");
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($"I/O error while deleting file {replicaFile}: {ex.Message}");
                     logger.Error($"I/O error while deleting file {replicaFile}: {ex.Message}");
                     continue;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Unexpected error while deleting file {replicaFile}: {ex.Message}");
                     logger.Error($"Unexpected error while deleting file {replicaFile}: {ex.Message}");
                     continue;
                 }
@@ -176,24 +161,20 @@ public class SyncFolderOperations
                     try{
                      DeleteAllFilesAndFolders(replicaFolder, logger);
                      Directory.Delete(replicaFolder);
-                     Console.WriteLine($"Deleted this folder {replicaFolder}.....{DateTime.Now.ToString()}");
                      logger.Info($"Deleted this folder {replicaFolder}.....{DateTime.Now.ToString()}");
                     }
                     catch (UnauthorizedAccessException ex)
                     {
-                        Console.WriteLine($"Access denied to the folder {replicaFolder}: {ex.Message}");
                         logger.Error($"Access denied to the folder {replicaFolder}: {ex.Message}");
                         continue;
                     }
                     catch (IOException ex)
                     {
-                        Console.WriteLine($"I/O error while deleting folder {replicaFolder}: {ex.Message}");
                         logger.Error($"I/O error while deleting folder {replicaFolder}: {ex.Message}");
                         continue;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Unexpected error while deleting folder {replicaFolder}: {ex.Message}");
                         logger.Error($"Unexpected error while deleting folder {replicaFolder}: {ex.Message}");
                         continue;
                     }
@@ -201,7 +182,7 @@ public class SyncFolderOperations
              }
              else
              {
-                 return;
+                 continue;
              }
             
          }
@@ -234,12 +215,10 @@ public class SyncFolderOperations
              {
                 try{
                  Directory.CreateDirectory(folderPath);
-                 Console.WriteLine($"Created replica folder : {folderPath}...{DateTime.Now.ToString()}");
                  logger.Info($"Created replica folder : {folderPath}...{DateTime.Now.ToString()}");
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine($"Unexpected error while creating folder {folderPath}: {ex.Message}");
                     logger.Error($"Unexpected error while creating folder {folderPath}: {ex.Message}");
                     continue;
                 }
@@ -275,31 +254,26 @@ public class SyncFolderOperations
                 if (!File.Exists(filePath))
                 {
                     File.Copy(file,filePath);
-                    Console.WriteLine($"Created replica file : {filePath}...{DateTime.Now.ToString()}");
                     logger.Info($"Created replica file : {filePath}...{DateTime.Now.ToString()}");
                 }
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine($"File not found while comparing files: {ex.Message}");
                 logger.Error($"File not found while comparing files: {ex.Message}");
                 continue;
             }
             catch (IOException ex)
             {
-                    Console.WriteLine($"I/O error while comparing files: {ex.Message}");
                     logger.Error($"I/O error while comparing files: {ex.Message}");
                     continue;
             }
             catch (UnauthorizedAccessException ex)
             {
-                    Console.WriteLine($"Access denied while comparing files: {ex.Message}");
                     logger.Error($"Access denied while comparing files: {ex.Message}");
                     continue;
             }
             catch (Exception ex)
             {
-                    Console.WriteLine($"Unexpected error while comparing files: {ex.Message}");
                     logger.Error($"Unexpected error while comparing files: {ex.Message}");
                     continue;
             }
@@ -307,13 +281,21 @@ public class SyncFolderOperations
          }
 
      }
-     //Check byte by byte if all files are the same, if not edit the replica to make it the same
-     //After the abpve method, only change would be contents inside the file
-     private void FileContentsAreSame(string sourcePath, string replicaPath, Logger logger)
-     {
-        string[] sourcefiles = Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories);
-       
-        foreach(var file in sourcefiles)
+    //Check byte by byte if all files are the same, if not edit the replica to make it the same
+    //After the abpve method, only change would be contents inside the file
+    private void FileContentsAreSame(string sourcePath, string replicaPath, Logger logger)
+    {
+        string[] sourcefiles;
+
+        try { 
+        sourcefiles = Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories);
+        }
+        catch(Exception ex)
+        {
+            logger.Error($"Unexpected error while comparing files: {ex.Message}");
+            return;
+        }
+        foreach (var file in sourcefiles)
         {
              string relativePath = Path.GetRelativePath(sourcePath, file);
              string replicaFilePath = Path.Combine(replicaPath, relativePath);
@@ -322,33 +304,27 @@ public class SyncFolderOperations
 
                 if(!AreFilesEqual(file, replicaFilePath, logger))
                   {
-                    Console.WriteLine($"Source file: {file} and Replica file: {replicaFilePath} are not the same, updating to make it the same.....");
                     logger.Info($"Source file: {file} and Replica file: {replicaFilePath} are not the same, updating to make it the same.....");
                     File.Copy(file, replicaFilePath, true);
-                    Console.WriteLine($"Updated replica file : {replicaFilePath}...");
                     logger.Info($"Updated replica file : {replicaFilePath}...");
                    }
                 }
                 catch (FileNotFoundException ex)
                 {
-                Console.WriteLine($"File not found while comparing files: {ex.Message}");
-                logger.Error($"File not found while comparing files: {ex.Message}");
+                    logger.Error($"File not found while comparing files: {ex.Message}");
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($"I/O error while comparing files: {ex.Message}");
                     logger.Error($"I/O error while comparing files: {ex.Message}");
                     
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    Console.WriteLine($"Access denied while comparing files: {ex.Message}");
                     logger.Error($"Access denied while comparing files: {ex.Message}");
                     
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Unexpected error while comparing files: {ex.Message}");
                     logger.Error($"Unexpected error while comparing files: {ex.Message}");
                     
                 }

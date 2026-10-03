@@ -31,6 +31,7 @@ public class Logger
     {
         using (StreamWriter writer = new StreamWriter(_logFilePath, true))
         {
+            Console.WriteLine($"{DateTime.Now}:[{level}]  {message}");
             writer.WriteLine($"{DateTime.Now}:[{level}]  {message}");
         }
     }

@@ -23,59 +23,48 @@
      {
          using PeriodicTimer setTimer = new(TimeSpan.FromSeconds(Timer));
 
-         while (await setTimer.WaitForNextTickAsync())
-         {
-            Console.WriteLine($"Syncing the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
+        do
+        {
             Logger.Info($"Syncing the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
-             
-             //Chceking if source path exists or not,if not then we will exit the program and ask the user for a relevent source path.
-             while (!Directory.Exists(_sourcePath))
-             {
-                 Logger.Critical("Source path mentioned does not exist, please enter relevant source path");
-                 Console.WriteLine("Source path mentioned does not exist, please enter relevant source path");
-                 Console.WriteLine("If it exists in the path mentioned and returning the same path, please check if you have the access to the source folder");
-                 _sourcePath = Console.ReadLine();
-             }
 
-             //Checking if replica folder exist, if it exists no folder will be created
-             while (!Directory.Exists(_replicaPath))
-             {
-                 Logger.Critical("Replica path mentioned does not exist, please enter relevant replica path");
-                 Console.WriteLine("Path mentioned does not exist, please enter relevant replica path");
-                 Console.WriteLine("If it exists in the path mentioned and returning the same path, please check if you have the access to the replica folder");
-                _replicaPath = Console.ReadLine();
-             }
+            //Chceking if source path exists or not,if not then we will exit the program and ask the user for a relevent source path.
+            while (!Directory.Exists(_sourcePath))
+            {
+                Logger.Critical("Source path mentioned does not exist, please enter relevant source path...If error still persists even if the path exists ..check if you have access");
+                continue;
+            }
 
-             string[] sourcefiles;
-             string[] sourcefolders;
+            //Checking if replica folder exist, if it exists no folder will be created
+            Directory.CreateDirectory(_replicaPath);
 
-             try
-             {
-                 //Getting all the files and folders from source folder to compare with replica folder.
-                 sourcefiles = Directory.GetFiles(_sourcePath, "*", SearchOption.AllDirectories);
-                 sourcefolders = Directory.GetDirectories(_sourcePath, "*", SearchOption.AllDirectories);
-             }
-             catch (UnauthorizedAccessException ex)
-             {
-                 Logger.Error($"Access denied to the source folder or files: {ex.Message}");
-                 Console.WriteLine($"Access denied to the source folder or files: {ex.Message}");
-                 continue; // Skip this iteration and wait for the next tick
-             }
-             catch (Exception ex)
-             {
-                 Logger.Error($"An error occurred while accessing the source folder or files: {ex.Message}");
-                 Console.WriteLine($"An error occurred while accessing the source folder or files: {ex.Message}");
-                 continue; // Skip this iteration and wait for the next tick
-             }
+            string[] sourcefiles;
+            string[] sourcefolders;
 
-             //Emptying replica folder if source folder is empty.
-             //All the necessary sync operation will be in this method, which will be called in the ExecuteSyncFolder method.
-             SyncFolderOperations.AllSyncOperations(_sourcePath, sourcefiles, sourcefolders, _replicaPath, Logger);
-             
-             Console.WriteLine($"End of sync for the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
-             Logger.Info($"End of sync for the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
+            try
+            {
+                //Getting all the files and folders from source folder to compare with replica folder.
+                sourcefiles = Directory.GetFiles(_sourcePath, "*", SearchOption.AllDirectories);
+                sourcefolders = Directory.GetDirectories(_sourcePath, "*", SearchOption.AllDirectories);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Logger.Error($"Access denied to the source folder or files: {ex.Message}");
+                continue; // Skip this iteration and wait for the next tick
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"An error occurred while accessing the source folder or files: {ex.Message}");
+                continue; // Skip this iteration and wait for the next tick
+            }
 
-         }
+            //Emptying replica folder if source folder is empty.
+            //All the necessary sync operation will be in this method, which will be called in the ExecuteSyncFolder method.
+            SyncFolderOperations.AllSyncOperations(_sourcePath, sourcefiles, sourcefolders, _replicaPath, Logger);
+
+            Logger.Info($"End of sync for the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
+
+        }
+        while (await setTimer.WaitForNextTickAsync());
 
      }   
  }
