@@ -38,25 +38,22 @@ dotnet run "C:\Sync\Source" "C:\Sync\Replica" 10 "C:\Sync\log.txt"
 
 ## Test
 
-Check your current folder:
+Run the tests from the root folder (the one that contains `Folder_Sync_C#.sln`).
+
+1. Check where you are and what the folder contains:
 
 ```powershell
 pwd
-```
-Run the tests from the root folder (the one that contains `Folder_Sync_C#.sln`).
-If you are still in `Folder_Sync_C#` after running the app, go up one level first:
-
-To check what the contents of the folder is:
-```powershell
 ls
 ```
 
-If it is not the root folder, write the below command to go up:
+2. If you don't see `Folder_Sync_C#.sln` in the list (for example, you are still in `Folder_Sync_C#` after running the app), go up one level:
+
 ```powershell
 cd ..
 ```
 
-From the root folder:
+3. Run the tests:
 
 ```powershell
 dotnet test
