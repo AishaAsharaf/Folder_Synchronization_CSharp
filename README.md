@@ -37,7 +37,7 @@ Clone the repository and open a terminal in its root folder:
 
 ```powershell
 git clone https://github.com/AishaAsharaf/Folder_Synchronization_CSharp.git
-cd Folder_Synchronization_CSharp
+cd Folder_Synchronization_CSharp/Folder_Sync_C#
 ```
 
 Run the app with four arguments:
