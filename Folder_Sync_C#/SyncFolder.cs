@@ -57,11 +57,6 @@
                 continue; // Skip this iteration and wait for the next tick
             }
             
-            if (sourcefiles.Length == 0 && sourcefolders.Length == 0)
-             {
-                Logger.Info("Source folder is empty, so leave the replica folder contents as it is and not delete anything from replica folder.....");
-                continue; // Skip this iteration and wait for the next tick
-             }
             //Emptying replica folder if source folder is empty.
             //All the necessary sync operation will be in this method, which will be called in the ExecuteSyncFolder method.
             SyncFolderOperations.AllSyncOperations(_sourcePath, sourcefiles, sourcefolders, _replicaPath, Logger);

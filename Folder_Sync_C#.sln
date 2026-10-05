@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folder_Sync_C#", "Folder_Sync_C#\Folder_Sync_C#.csproj", "{4B69C4B0-DA35-4810-97AC-B8CA49CC8F05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folder_Sync.Tests", "Folder_Sync.Tests\Folder_Sync.Tests.csproj", "{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{4B69C4B0-DA35-4810-97AC-B8CA49CC8F05}.Release|x64.Build.0 = Release|Any CPU
 		{4B69C4B0-DA35-4810-97AC-B8CA49CC8F05}.Release|x86.ActiveCfg = Release|Any CPU
 		{4B69C4B0-DA35-4810-97AC-B8CA49CC8F05}.Release|x86.Build.0 = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|x64.Build.0 = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{8F999346-9EF9-448F-8B47-4EED6AF2F3AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

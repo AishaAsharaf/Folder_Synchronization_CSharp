@@ -30,202 +30,69 @@ folder.
 Make sure the following are installed:
 
 * [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-* Git (if cloning the repository)
 
-## 1. Clone the repository
+## Run
 
-Clone the repository to a location of your choice:
-
-```powershell
-git clone <repository-url>
-```
-
-Then navigate into the repository:
+Clone the repository and open a terminal in its root folder:
 
 ```powershell
-cd Folder_Synchronization_C#
+git clone https://github.com/AishaAsharaf/Folder_Synchronization_CSharp.git
+cd Folder_Synchronization_CSharp
 ```
 
-The repository should contain a structure similar to:
-
-```text
-Folder_Synchronization_C#
-│
-├── Folder_Sync_CSharp
-│   ├── Folder_Sync_CSharp.csproj
-│   ├── Program.cs
-│   ├── SyncFolder.cs
-│   └── ...
-│
-├── .gitignore
-├── README.md
-└── Folder_Sync_CSharp.sln
-```
-
-## 2. Navigate to the project directory
-
-The `dotnet run` command must be executed from the directory containing the `.csproj` file.
-
-Navigate to:
+Run the app with four arguments:
 
 ```powershell
-cd Folder_Sync_CSharp
+dotnet run <sourcePath> <replicaPath> <intervalSeconds> <logFilePath>
 ```
 
-You should now be in:
-
-```text
-Folder_Synchronization_C#\Folder_Sync_CSharp
-```
-
-Verify that the project file exists:
+Example (syncs every 10 seconds):
 
 ```powershell
-dir *.csproj
+dotnet run "C:\Sync\Source" "C:\Sync\Replica" 10 "C:\Sync\log.txt"
 ```
 
-You should see:
+- Put paths with spaces in double quotes.
+- The replica folder and log file are created if they do not exist.
+- Press **Ctrl + C** to stop.
 
-```text
-Folder_Sync_CSharp.csproj
-```
+## Test
 
-> **Important:** The exact location of the repository on your computer does not matter. Do not use a hard-coded path such as `C:\Users\...\Desktop\...`. The important requirement is that the terminal's current directory is the `Folder_Sync_CSharp` directory containing the `.csproj` file.
-
-## 3. Build the project
-
-Run:
+From the root folder:
 
 ```powershell
-dotnet build
+dotnet test
 ```
 
-A successful build should display:
+The NUnit tests cover new, changed and deleted files, nested and empty folders, and extra content in the replica.
+
+## How it works
+
+Every interval, the app:
+
+1. Deletes files and folders in the replica that are not in the source.
+2. Creates folders that are missing in the replica.
+3. Copies files that are missing in the replica.
+4. Updates replica files whose content differs from the source (compared byte by byte).
+
+Every create, copy, update and delete is logged to the console and the log file.
+
+## Safety checks
+
+- The app stops with a clear message if arguments are missing, the source folder does not exist, or the interval is not a whole number greater than 0.
+- Source and replica cannot be the same folder or inside each other, to prevent data loss.
+- The log file cannot be inside the source or replica folder.
+- If the source becomes unavailable while running (for example, a drive is unplugged), that cycle is skipped and the replica is left untouched. Syncing resumes automatically when the source is back.
+- An empty source folder results in an empty replica.
+- An error on one file is logged and does not stop the rest of the sync.
+
+## Project structure
 
 ```text
-Build succeeded
+Folder_Sync_C#/                 Console app
+  Program.cs                    Reads and validates the arguments
+  SyncFolder.cs                 Runs the sync on a timer
+  SyncFolderOperations.cs       Compares, copies and deletes files and folders
+  Logger.cs                     Writes to the console and the log file
+Folder_Sync.Tests/              NUnit tests
 ```
-
-Warnings may be displayed, but the build can still succeed as long as there are no errors.
-
-## 4. Prepare the folders
-
-Create three locations for:
-
-* **Source folder** – contains the files and folders to synchronize.
-* **Replica folder** – will be synchronized to match the source folder.
-* **Log file** – stores synchronization activity and errors.
-
-For example, you could create:
-
-```text
-C:\FolderSync\Source
-C:\FolderSync\Replica
-C:\FolderSync\log.txt
-```
-
-You may choose **any locations you want**.
-
-## 5. Run the program
-
-The program requires four command-line arguments:
-
-```text
-<sourcePath> <replicaPath> <intervalSeconds> <logFilePath>
-```
-
-Run:
-
-```powershell
-dotnet run "<sourcePath>" "<replicaPath>" <intervalSeconds> "<logFilePath>"
-```
-
-### Example
-
-If your folders are:
-
-```text
-C:\FolderSync\Source
-C:\FolderSync\Replica
-C:\FolderSync\log.txt
-```
-
-run:
-
-```powershell
-dotnet run "C:\FolderSync\Source" "C:\FolderSync\Replica" 10 "C:\FolderSync\log.txt"
-```
-
-This means:
-
-```text
-Source:           C:\FolderSync\Source
-Replica:          C:\FolderSync\Replica
-Interval:         10 seconds
-Log file:         C:\FolderSync\log.txt
-```
-
-The program will synchronize the replica folder with the source folder every 10 seconds.
-
-## 6. Using paths containing spaces
-
-If a path contains spaces, enclose the path in double quotes.
-
-For example:
-
-```powershell
-dotnet run "C:\My Projects\Source Folder" "C:\My Projects\Replica Folder" 10 "C:\My Projects\sync.log"
-```
-
-## 7. Stop the program
-
-To stop the running synchronization program, press:
-
-```text
-Ctrl + C
-```
-
-## 8. Running the compiled application
-
-After building the project, the compiled DLL will be located under:
-
-```text
-bin\Debug\net10.0\Folder_Sync_CSharp.dll
-```
-
-From the project directory, it can be run with:
-
-```powershell
-dotnet .\bin\Debug\net10.0\Folder_Sync_CSharp.dll "<sourcePath>" "<replicaPath>" <intervalSeconds> "<logFilePath>"
-```
-
-For normal development and testing, `dotnet run` is recommended.
-
-
-### Running Tests
-
-Run the NUnit tests with:
-
-```powershell
-dotnet test .\Folder_Sync.Tests\Folder_Sync.Tests.csproj
-```
-
-The test project contains 5 NUnit tests covering the main folder synchronization operations.
-
-If all tests pass, the output will include:
-
-```text
-NUnit3TestExecutor discovered 5 of 5 NUnit test cases
-
-Test summary: total: 5, failed: 0, succeeded: 5, skipped: 0
-```
-
-The tests verify that:
-
-1. A file existing in the source folder is copied to the replica.
-2. A file existing only in the replica is deleted.
-3. A changed source file updates the corresponding replica file.
-4. Missing folders are created in the replica.
-5. Nested files preserve their directory structure in the replica.
-
-`[SetUp]` runs before each test to create isolated temporary source and replica folders, while `[TearDown]` removes them after each test.
