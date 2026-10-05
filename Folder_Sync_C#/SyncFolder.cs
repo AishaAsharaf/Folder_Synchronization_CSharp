@@ -27,7 +27,7 @@
         {
             Logger.Info($"Syncing the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
 
-            //Chceking if source path exists or not,if not then we will exit the program and ask the user for a relevent source path.
+            //Chceking if source path exists or not,if not then we will exit the program.
             if(!Directory.Exists(_sourcePath))
             {
                 Logger.Critical("Source path mentioned does not exist, please enter relevant source path...If error still persists even if the path exists ..check if you have access");

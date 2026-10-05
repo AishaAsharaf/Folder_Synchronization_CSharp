@@ -3,26 +3,6 @@ A program that synchronizes two folders: source and replica.
 The program should maintain a full, identical copy of source folder at replica
 folder.
 
-## Rules :
-
-* Synchronization must be one-way: after the synchronization content of the replica
-  folder should be modified to exactly match content of the source folder;
-
-* Synchronization should be performed periodically;
-
-* File creation/copying/removal operations should be logged to a file and to the
-  console output;
-
-* Folder paths, synchronization interval and log file path should be provided using
-  the command line arguments;
-
-* It is undesirable to use third-party libraries that implement folder synchronization;
-
-* It is allowed (and recommended) to use external libraries implementing other well-
-  known algorithms. For example, there is no point in implementing yet
-  another function that calculates MD5 if you need it for the task – it is perfectly
-  acceptable to use a third-party (or built-in) library;
-
 # How to Run the Folder Synchronization Program
 
 ## Prerequisites
@@ -33,7 +13,7 @@ Make sure the following are installed:
 
 ## Run
 
-Clone the repository and open a terminal in its root folder:
+Clone the repository and open a terminal in its app folder:
 
 ```powershell
 git clone https://github.com/AishaAsharaf/Folder_Synchronization_CSharp.git
@@ -57,6 +37,24 @@ dotnet run "C:\Sync\Source" "C:\Sync\Replica" 10 "C:\Sync\log.txt"
 - Press **Ctrl + C** to stop.
 
 ## Test
+
+Check your current folder:
+
+```powershell
+pwd
+```
+Run the tests from the root folder (the one that contains `Folder_Sync_C#.sln`).
+If you are still in `Folder_Sync_C#` after running the app, go up one level first:
+
+To check what the contents of the folder is:
+```powershell
+ls
+```
+
+If it is not the root folder, write the below command to go up:
+```powershell
+cd ..
+```
 
 From the root folder:
 
@@ -96,3 +94,23 @@ Folder_Sync_C#/                 Console app
   Logger.cs                     Writes to the console and the log file
 Folder_Sync.Tests/              NUnit tests
 ```
+
+## Rules :
+
+* Synchronization must be one-way: after the synchronization content of the replica
+  folder should be modified to exactly match content of the source folder;
+
+* Synchronization should be performed periodically;
+
+* File creation/copying/removal operations should be logged to a file and to the
+  console output;
+
+* Folder paths, synchronization interval and log file path should be provided using
+  the command line arguments;
+
+* It is undesirable to use third-party libraries that implement folder synchronization;
+
+* It is allowed (and recommended) to use external libraries implementing other well-
+  known algorithms. For example, there is no point in implementing yet
+  another function that calculates MD5 if you need it for the task – it is perfectly
+  acceptable to use a third-party (or built-in) library;
