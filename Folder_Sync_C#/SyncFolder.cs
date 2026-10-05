@@ -1,36 +1,36 @@
  public class SyncFolder
  {
-     private string _sourcePath;
+     private readonly string _sourcePath;
 
-     private string _replicaPath;
+     private readonly string _replicaPath;
 
-     public int Timer { get; set; }
+     private readonly int _intervalSeconds;
 
-     public Logger Logger { get; set; }
+     private readonly Logger _logger;
 
-     public SyncFolderOperations SyncFolderOperations { get; set; } 
+     private readonly SyncFolderOperations _syncFolderOperations; 
 
      public SyncFolder(string sourcePath, string replicaPath, int timer, Logger logger, SyncFolderOperations syncFolderOperations)
      {
          this._sourcePath = sourcePath;
          this._replicaPath = replicaPath;
-         this.Timer = timer;
-         this.Logger = logger;
-         this.SyncFolderOperations = syncFolderOperations;
+         this._intervalSeconds = timer;
+         this._logger = logger;
+         this._syncFolderOperations = syncFolderOperations;
      }
 
      public async Task ExecuteSyncFolder()
      {
-         using PeriodicTimer setTimer = new(TimeSpan.FromSeconds(Timer));
+         using PeriodicTimer setTimer = new(TimeSpan.FromSeconds(_intervalSeconds));
 
         do
         {
-            Logger.Info($"Syncing the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
+            _logger.Info($"Syncing the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
 
-            //Chceking if source path exists or not,if not then we will exit the program.
+            //Checking if source path exists or not,if not then we will skip the sync operation and wait for the next tick to check again.
             if(!Directory.Exists(_sourcePath))
             {
-                Logger.Critical("Source path mentioned does not exist, please enter relevant source path...If error still persists even if the path exists ..check if you have access");
+                _logger.Critical($"Source folder {_sourcePath} is not available. Skipping this cycle, replica left untouched.");
                 continue;
             }
 
@@ -48,20 +48,20 @@
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.Error($"Access denied to the source folder or files: {ex.Message}");
+                _logger.Error($"Access denied to the source folder or files: {ex.Message}");
                 continue; // Skip this iteration and wait for the next tick
             }
             catch (Exception ex)
             {
-                Logger.Error($"An error occurred while accessing the source folder or files: {ex.Message}");
+                _logger.Error($"An error occurred while accessing the source folder or files: {ex.Message}");
                 continue; // Skip this iteration and wait for the next tick
             }
             
-            //Emptying replica folder if source folder is empty.
-            //All the necessary sync operation will be in this method, which will be called in the ExecuteSyncFolder method.
-            SyncFolderOperations.AllSyncOperations(_sourcePath, sourcefiles, sourcefolders, _replicaPath, Logger);
+            //Running all sync operations: delete extras, create missing folders, copy new files, update changed files.
+            //An empty source results in an empty replica.
+            _syncFolderOperations.AllSyncOperations(_sourcePath, sourcefiles, sourcefolders, _replicaPath, _logger);
 
-            Logger.Info($"End of sync for the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
+            _logger.Info($"End of sync for the source folder {_sourcePath} with replica folder {_replicaPath} at {DateTime.Now.ToString()}");
 
         }
         while (await setTimer.WaitForNextTickAsync());
